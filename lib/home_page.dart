@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:expense_tracker/expense_item.dart';
+import 'expense_history.dart';
 import 'add_expense.dart';
 import 'values.dart';
 
@@ -121,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                 ),  
                 FloatingActionButton(
-                  child: Icon(Icons.list, color: Colors.black,),.
+                  child: Icon(Icons.list, color: Colors.black,),
                   heroTag: 'history_fab',
                   elevation: 4.0,
                   backgroundColor: Color(0xFFF8BBD0),
