@@ -13,10 +13,12 @@ class Item{
 
 List<Item> expenseList =
   [
-    Item(DateTime.parse('2020-03-30'), 'Salary',1200, 'Credit', 'Miscellaneous'),
+    Item(DateTime.parse('2020-03-30'), 'Salary',100, 'Credit', 'Miscellaneous'),
     Item(DateTime.parse('2020-05-26'), 'Soap', 59, 'Debit', 'Daily Needs'),
-    Item(DateTime.parse('2020-04-28'), 'Milk', 30, 'Debit', 'Food'),
-    Item(DateTime.parse('2020-05-03'), 'FD', 300, 'Credit', 'Travel'),
+    Item(DateTime.parse('2020-04-28'), 'Milk', 200, 'Debit', 'Food'),
+    Item(DateTime.parse('2020-05-03'), 'Flight', 300, 'Debit', 'Travel'),
+    Item(DateTime.parse('2020-05-03'), 'Chicken', 150, 'Debit', 'Food'),
+    Item(DateTime.parse('2020-05-03'), 'abcd', 300, 'Debit', 'Miscellaneous'),
   ];
 
 

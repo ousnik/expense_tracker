@@ -1,6 +1,8 @@
+import 'package:expense_tracker/expense_item.dart';
 import 'package:flutter/material.dart';
 import 'add_expense.dart';
 import 'expense_history.dart';
+import 'static_values.dart';
 
 class MyApp extends StatelessWidget {
   
@@ -29,8 +31,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  @override
+  void initState() {
+    super.initState();
+    manageExpenseFunc();
+  }
   
-  Container homeCategoryTemplate(mb,icon, title, amount){
+  Container homeCategoryTemplate(mb,icon, title){
     return Container(
               margin: EdgeInsets.only(bottom: mb),
               decoration: new BoxDecoration(
@@ -42,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: ListTile(
                 leading: Icon(icon, color: Colors.white,),
                 title: Text(title,style: TextStyle(color: Colors.white),),
-                trailing: Text('₹'+amount.toString(), style: TextStyle(color: Colors.white, fontSize: 15)),
+                trailing: Text('₹'+categoryExpense[title].toString(), style: TextStyle(color: Colors.white, fontSize: 15)),
               ),
     );
   }
@@ -69,17 +77,17 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               child: Center(
                 child: Text(
-                  '₹1000',
+                  '₹'+totalExpense.toString(),
                   style: new TextStyle(
                     fontSize: 28,
                   ),
                 ),
               ),
             ),
-            homeCategoryTemplate(4.00,Icons.restaurant,'Food',400),
-            homeCategoryTemplate(4.00,Icons.directions_transit,'Travel',300),
-            homeCategoryTemplate(4.00,Icons.home,'Daily Needs',250),
-            homeCategoryTemplate(16.00,Icons.category,'Miscellaneous',50),
+            homeCategoryTemplate(4.00,Icons.restaurant,'Food'),
+            homeCategoryTemplate(4.00,Icons.directions_transit,'Travel'),
+            homeCategoryTemplate(4.00,Icons.home,'Daily Needs'),
+            homeCategoryTemplate(16.00,Icons.category,'Miscellaneous'),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,

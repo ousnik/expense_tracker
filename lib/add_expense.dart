@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'expense_item.dart';
+import 'static_values.dart';
 
 class AddExpensePage extends StatefulWidget {
 
@@ -170,6 +171,19 @@ class _AddExpensePageState extends State<AddExpensePage> {
                  debitOrCredit(_debitCredit), 
                  category
                 );
+                setState(() {
+                  if (debitOrCredit(_debitCredit)=='Debit'){
+                    categoryExpense[category]+=int.parse(addExpenseAmountController.text);
+                    totalExpense+=int.parse(addExpenseAmountController.text);
+                  }
+                  else{
+                    categoryExpense[category]-=int.parse(addExpenseAmountController.text);
+                    totalExpense-=int.parse(addExpenseAmountController.text);
+                  }
+                });
+                
+                if (Navigator.canPop(context)) 
+                  Navigator.pop(context);
              },
            ),
           ],
