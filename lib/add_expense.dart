@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'expense_item.dart';
-import 'static_values.dart';
+import 'values.dart';
 
 class AddExpensePage extends StatefulWidget {
 
@@ -11,25 +11,6 @@ class AddExpensePage extends StatefulWidget {
 
 class _AddExpensePageState extends State<AddExpensePage> {
 
-  static int _debitCredit;
-  final int radioGroup = 1;
-
-  @override
-  void initState() {
-    super.initState();
-    _debitCredit = 0;
-  }
-
-  setSelectedRadio(int val) {
-    setState(() {
-      _debitCredit=val;
-    });
-  }
-
-  String debitOrCredit(int dc){
-    if (dc==1) return 'Credit';
-    else return 'Debit';
-  }
 
   final addExpenseTitleController = TextEditingController();
   final addExpenseAmountController = TextEditingController();
@@ -40,7 +21,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
     final DateTime picked = await showDatePicker(
       context: context,
       initialDate: _date,
-      firstDate: new DateTime(2018),
+      firstDate: new DateTime(DateTime.now().year-2),
       lastDate: new DateTime.now(),
     );
 
@@ -84,37 +65,6 @@ class _AddExpensePageState extends State<AddExpensePage> {
                 hintText: 'Enter Title'
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-            Row(
-              children: <Widget>[
-                Radio(
-                  value: 0,
-                  groupValue: _debitCredit, 
-                  activeColor: Colors.red,
-                  onChanged: (val) {
-                    setSelectedRadio(val);
-                  },
-                ),
-                Text('Debit')
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Radio(
-                  value: 1,
-                  groupValue: _debitCredit, 
-                  activeColor: Colors.green,
-                  onChanged: (val) {
-                    setSelectedRadio(val);
-                  },
-                ),
-                Text('Credit'),
-              ],
-            ),
-              ],
-            ),
             TextFormField(
               controller: addExpenseAmountController,
               enableSuggestions: false,
@@ -144,7 +94,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                 Text('Category: '),
                 DropdownButton<String>(
                   value: category,
-                  items: <String>['Food','Travel','Daily Needs','Miscellaneous'].map((String value) {
+                  items: <String>['Food','Travel','Daily Needs','Miscellaneous','Income'].map((String value) {
                     return new DropdownMenuItem<String>(
                       value: value,
                       child: new Text(value),
@@ -167,21 +117,15 @@ class _AddExpensePageState extends State<AddExpensePage> {
                addExpenseItem(
                  _date, 
                  addExpenseTitleController.text, 
-                 int.parse(addExpenseAmountController.text), 
-                 debitOrCredit(_debitCredit), 
+                 int.parse(addExpenseAmountController.text),
                  category
                 );
                 setState(() {
-                  if (debitOrCredit(_debitCredit)=='Debit'){
                     categoryExpense[category]+=int.parse(addExpenseAmountController.text);
-                    totalExpense+=int.parse(addExpenseAmountController.text);
-                  }
-                  else{
-                    categoryExpense[category]-=int.parse(addExpenseAmountController.text);
-                    totalExpense-=int.parse(addExpenseAmountController.text);
-                  }
+                    if (category!='Income')
+                      totalExpense+=int.parse(addExpenseAmountController.text);
                 });
-                
+
                 if (Navigator.canPop(context)) 
                   Navigator.pop(context);
              },

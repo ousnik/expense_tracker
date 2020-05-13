@@ -1,8 +1,8 @@
-import 'package:expense_tracker/expense_item.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:expense_tracker/expense_item.dart';
 import 'add_expense.dart';
-import 'expense_history.dart';
-import 'static_values.dart';
+import 'values.dart';
 
 class MyApp extends StatelessWidget {
   
@@ -37,20 +37,39 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     manageExpenseFunc();
   }
+
+  Color categoryBgColour(String title){
+    if (title=='Income')
+      return Colors.lightGreen;
+    else
+      return Colors.black26;
+  }
   
   Container homeCategoryTemplate(mb,icon, title){
     return Container(
               margin: EdgeInsets.only(bottom: mb),
               decoration: new BoxDecoration(
-                color: Colors.black,
+                color: categoryBgColour(title),
                 borderRadius: BorderRadius.all(
                   const Radius.circular(10),
                 ),
               ),
               child: ListTile(
-                leading: Icon(icon, color: Colors.white,),
-                title: Text(title,style: TextStyle(color: Colors.white),),
-                trailing: Text('₹'+categoryExpense[title].toString(), style: TextStyle(color: Colors.white, fontSize: 15)),
+                leading: Icon(icon, color: Colors.black,),
+                title: Text(
+                  title, 
+                  style: TextStyle(
+                    color: Colors.black, 
+                    fontSize: 18
+                  ),
+                ),
+                trailing: Text(
+                  '₹'+categoryExpense[title].toString(), 
+                  style: TextStyle(
+                    color: Colors.black, 
+                    fontSize: 18
+                  ),
+                ),
               ),
     );
   }
@@ -67,36 +86,31 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 24),
-              width: 150,
-              height: 150,
-              decoration: new BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.amber
+            Text(
+              'Your Expenditure as of '+DateFormat('dd MMMM').format(expenseList[0].date).toString()+":",
+              style: new TextStyle(
+                fontSize: 18,
               ),
-              child: Center(
-                child: Text(
-                  '₹'+totalExpense.toString(),
-                  style: new TextStyle(
-                    fontSize: 28,
-                  ),
-                ),
+            ),Text(
+              '₹'+totalExpense.toString(),
+              style: new TextStyle(
+                fontSize: 70,
               ),
             ),
             homeCategoryTemplate(4.00,Icons.restaurant,'Food'),
             homeCategoryTemplate(4.00,Icons.directions_transit,'Travel'),
             homeCategoryTemplate(4.00,Icons.home,'Daily Needs'),
-            homeCategoryTemplate(16.00,Icons.category,'Miscellaneous'),
+            homeCategoryTemplate(4.0,Icons.category,'Miscellaneous'),
+            homeCategoryTemplate(16.00,Icons.attach_money,'Income'),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 FloatingActionButton(
-                  child: Icon(Icons.add),
+                  child: Icon(Icons.add, color: Colors.black,),
                   heroTag: 'add_fab',
                   elevation: 4.0,
-                  backgroundColor: Colors.pink,
+                  backgroundColor: Color(0xFFF8BBD0),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -105,12 +119,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                     );                 
                   },
-                ),
+                ),  
                 FloatingActionButton(
-                  child: Icon(Icons.list),
+                  child: Icon(Icons.list, color: Colors.black,),.
                   heroTag: 'history_fab',
                   elevation: 4.0,
-                  backgroundColor: Colors.pink,
+                  backgroundColor: Color(0xFFF8BBD0),
                   onPressed: () {
                     Navigator.push(
                       context, 

@@ -16,8 +16,8 @@ class _ExpenseHistoryPageState extends State<ExpenseHistoryPage> {
     expenseList.sort((a,b) => b.date.compareTo(a.date));
   }
 
-  Color getColor(String debitOrCredit) {
-    if (debitOrCredit=='Debit') return Colors.red;
+  Color getColor(String category) {
+    if (category !='Income') return Colors.red;
     else return Colors.green;
   }
 
@@ -26,6 +26,7 @@ class _ExpenseHistoryPageState extends State<ExpenseHistoryPage> {
     else if (category == 'Travel') return Icons.directions_transit;
     else if (category == 'Daily Needs') return Icons.home;
     else if (category == 'Miscellaneous') return Icons.category;
+    else if (category == 'Income') return Icons.attach_money;
     return null;
   }
 
@@ -63,7 +64,7 @@ class _ExpenseHistoryPageState extends State<ExpenseHistoryPage> {
             padding: const EdgeInsets.only(left: 8.0),
             child: Text(list[index].title),
           )),
-          Text('₹'+list[index].amount.toString(), style: TextStyle(color: getColor(list[index].debitOrCredit)),),
+          Text('₹'+list[index].amount.toString(), style: TextStyle(color: getColor(list[index].category)),),
         ],
       ),
     );
@@ -135,6 +136,5 @@ class _ExpenseHistoryPageState extends State<ExpenseHistoryPage> {
       ),
     );
   }
-
 
 }
