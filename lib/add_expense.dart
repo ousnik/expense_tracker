@@ -47,10 +47,11 @@ class _AddExpensePageState extends State<AddExpensePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('Add Expense'),
       ),
-      body: SingleChildScrollView(
+      body: Padding(
         padding: const EdgeInsets.all(18.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -62,55 +63,73 @@ class _AddExpensePageState extends State<AddExpensePage> {
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 labelText: 'Title',   
-                hintText: 'Enter Title'
+                hintText: 'Enter a title'
               ),
             ),
             TextFormField(
               controller: addExpenseAmountController,
               enableSuggestions: false,
               keyboardType: TextInputType.numberWithOptions(
-              decimal: true,
-              signed: true
+                decimal: true,
               ),
               decoration: InputDecoration(
                 labelText: 'Amount',   
-                hintText: 'Enter Amount'
+                hintText: 'Enter an amount'
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start, 
-              children: [
-                Text(
-                  dateStr,
-                ),
-                IconButton(
-                  icon: Icon(Icons.calendar_today),
-                  onPressed: () => _selectDate(context),
-                ), 
-              ]
+            
+            Padding(
+              padding: const EdgeInsets.only(top:18.0),
+              child: Row(
+                children: [
+                  Text(
+                    dateStr,
+                    style: TextStyle(
+                      fontSize: 16
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.calendar_today),
+                    onPressed: () => _selectDate(context),
+                  ), 
+                ]
+              ),
             ),
-            Row(
-              children: [
-                Text('Category: '),
-                DropdownButton<String>(
-                  value: category,
-                  items: <String>['Food','Travel','Daily Needs','Miscellaneous','Income'].map((String value) {
-                    return new DropdownMenuItem<String>(
-                      value: value,
-                      child: new Text(value),
-                    );
-                  }).toList(),
-                  hint: new Text("Select Category"),
-                  onChanged: (String newValue) {
-                    setState(() {
-                      category=newValue;
-                    });
-                  }
-                )
-              ]
+            Padding(
+              padding: const EdgeInsets.only(bottom:12.0),
+              child: Row(
+                children: [
+                  Text(
+                    'Category: ',
+                    style: new TextStyle(
+                      fontSize: 16
+                    )
+                  ),
+                  DropdownButton<String>(
+                    value: category,
+                    items: categoryList.map((String value) {
+                      return new DropdownMenuItem<String>(
+                        value: value,
+                        child: new Text(value),
+                      );
+                    }).toList(),
+                    hint: new Text("Select Category"),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        category=newValue;
+                      });
+                    }
+                  )
+                ]
+              ),
             ),
             MaterialButton(
-             child: Text("ADD"),
+             child: Text(
+               "ADD",
+                style: new TextStyle(
+                  color: Colors.white
+                )
+              ),
              color: Theme.of(context).accentColor,
              elevation: 4.0,
              onPressed: () {

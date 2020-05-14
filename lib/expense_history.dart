@@ -13,7 +13,8 @@ class _ExpenseHistoryPageState extends State<ExpenseHistoryPage> {
   @override
   void initState() {
     super.initState();
-    expenseList.sort((a,b) => b.date.compareTo(a.date));
+    if(expenseList.length!=0)
+      expenseList.sort((a,b) => b.date.compareTo(a.date));
   }
 
   Color getColor(String category) {
@@ -22,17 +23,21 @@ class _ExpenseHistoryPageState extends State<ExpenseHistoryPage> {
   }
 
   IconData getIcon(String category) {
-    if (category == 'Food') return Icons.restaurant;
-    else if (category == 'Travel') return Icons.directions_transit;
-    else if (category == 'Daily Needs') return Icons.home;
-    else if (category == 'Miscellaneous') return Icons.category;
-    else if (category == 'Income') return Icons.attach_money;
-    return null;
+    switch (category) {
+      case 'Entertainment': return Icons.theaters;
+      case 'Health': return Icons.local_hospital;
+      case 'Home': return Icons.home;
+      case 'Miscellaneous': return Icons.category;
+      case 'Transportation': return Icons.directions_transit;
+      case 'Utilities': return Icons.build;
+      case 'Income': return Icons.attach_money;
+      default: return null;
+    }
   }
 
   Widget expenseHistoryTitle(){
     return Padding(
-      padding: const EdgeInsets.only(top:40.0,bottom: 40.0),
+      padding: const EdgeInsets.only(top:30.0,bottom: 30.0),
       child: Text(
         'My Expenses',
         textAlign: TextAlign.center,
@@ -95,9 +100,23 @@ class _ExpenseHistoryPageState extends State<ExpenseHistoryPage> {
   List<Widget> expenseFormatter(List expenselist){
 
     List<Widget> monthWidgetList=[];
-
+      
     monthWidgetList.add(expenseHistoryTitle());
 
+    if (expenselist.length==0){
+      monthWidgetList.add(
+        Center(
+          heightFactor: 30,
+          child: Text(
+            'You have not added any expenses',
+            style: TextStyle(
+              color: Colors.black38
+            ),
+          ),
+        ) 
+      );
+      return monthWidgetList;
+    }
     int index=0;
     List<Item> passablelist =[];
     String currentMonth=expenselist[index].date.month.toString();
@@ -128,11 +147,13 @@ class _ExpenseHistoryPageState extends State<ExpenseHistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('MY EXPENSES'),
+        title: Text('My Expenses'),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: expenseFormatter(expenseList),
+      body: SingleChildScrollView(
+              child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: expenseFormatter(expenseList),
+        ),
       ),
     );
   }

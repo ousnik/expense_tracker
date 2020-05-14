@@ -1,3 +1,6 @@
+import 'package:firebase_database/firebase_database.dart';
+
+var dbReference = FirebaseDatabase.instance.reference();  
 
 class Item{
 
@@ -10,20 +13,41 @@ class Item{
 
 }
 
-List<Item> expenseList =
-  [
-    Item(DateTime.parse('2020-03-30'), 'Salary',100, 'Income'),
-    Item(DateTime.parse('2020-05-26'), 'Soap', 59, 'Daily Needs'),
-    Item(DateTime.parse('2020-04-28'), 'Milk', 200, 'Food'),
-    Item(DateTime.parse('2020-05-03'), 'Flight', 300, 'Travel'),
-    Item(DateTime.parse('2020-05-03'), 'Chicken', 150, 'Food'),
-    Item(DateTime.parse('2020-05-03'), 'abcd', 300, 'Miscellaneous'),
-  ];
+Item getExpenseItem(Map val){
+  Item mExpenseItem = new Item(
+    DateTime.parse(val['date']),
+    val['title'],
+    val['amount'],
+    val['category'],
+  );
+  return mExpenseItem;
+}
 
+void expenseListPopulator() async {
+ await dbReference.once().then((DataSnapshot snapshot){
+    Map<dynamic, dynamic> values = snapshot.value;
+    if(values!=null){
+      values.forEach((key,values) {
+        Item check = getExpenseItem(values);
+        expenseList.add(check);
+      });
+    }
+  });
+}
 
+List<Item> expenseList = [];
+ 
 void addExpenseItem(date,title,amount,category){
   Item newItem = new Item(date,title,amount,category);
-  expenseList.add(newItem); 
-  expenseList.sort((a,b) => b.date.compareTo(a.date));
+  var newItemMap={
+    'date':newItem.date.toString(),
+    'title':newItem.title,
+    'amount':newItem.amount,
+    'category':newItem.category
+  };
+
+  dbReference.push().set(newItemMap);
+  expenseList.add(newItem);
+
 }
 
