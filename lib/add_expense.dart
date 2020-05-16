@@ -14,6 +14,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
 
   final addExpenseTitleController = TextEditingController();
   final addExpenseAmountController = TextEditingController();
+  final addExpenseDateController = TextEditingController();
   
   static DateTime _date = new DateTime.now();
 
@@ -29,6 +30,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
       setState(() {
         _date = picked;
         dateStr = DateFormat('y-MM-dd').format(picked).toString();
+        addExpenseDateController.text=dateStr;
       });
     }
   }
@@ -41,6 +43,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
   void dispose() {
     addExpenseTitleController.dispose();
     addExpenseAmountController.dispose();
+    addExpenseDateController.dispose();
     super.dispose();
   }
 
@@ -74,55 +77,42 @@ class _AddExpensePageState extends State<AddExpensePage> {
               ),
               decoration: InputDecoration(
                 labelText: 'Amount',   
-                hintText: 'Enter an amount'
+                hintText: 'Enter an amount',
+                prefixText: '₹',
               ),
             ),
-            
-            Padding(
-              padding: const EdgeInsets.only(top:18.0),
-              child: Row(
-                children: [
-                  Text(
-                    dateStr,
-                    style: TextStyle(
-                      fontSize: 16
-                    ),
+            InkWell(
+              child: IgnorePointer(
+                child: TextFormField(
+                  controller: addExpenseDateController,
+                  decoration: InputDecoration(
+                    labelText: 'Date',
+                    suffixIcon: Icon(Icons.calendar_today)
                   ),
-                  IconButton(
-                    icon: Icon(Icons.calendar_today),
-                    onPressed: () => _selectDate(context),
-                  ), 
-                ]
+                ),
+              ),
+              onTap: () => _selectDate(context),
+            ),
+            Divider(color: Colors.transparent,),
+            DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                isExpanded: true,
+                value: category,
+                items: categoryList.map((String value) {
+                  return new DropdownMenuItem<String>(
+                    value: value,
+                    child: new Text(value),
+                  );
+                }).toList(),
+                hint: new Text("Select Category"),
+                onChanged: (String newValue) {
+                  setState(() {
+                    category=newValue;
+                  });
+                }
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom:12.0),
-              child: Row(
-                children: [
-                  Text(
-                    'Category: ',
-                    style: new TextStyle(
-                      fontSize: 16
-                    )
-                  ),
-                  DropdownButton<String>(
-                    value: category,
-                    items: categoryList.map((String value) {
-                      return new DropdownMenuItem<String>(
-                        value: value,
-                        child: new Text(value),
-                      );
-                    }).toList(),
-                    hint: new Text("Select Category"),
-                    onChanged: (String newValue) {
-                      setState(() {
-                        category=newValue;
-                      });
-                    }
-                  )
-                ]
-              ),
-            ),
+            Divider(color: Colors.transparent,),
             MaterialButton(
              child: Text(
                "ADD",
@@ -139,12 +129,6 @@ class _AddExpensePageState extends State<AddExpensePage> {
                  int.parse(addExpenseAmountController.text),
                  category
                 );
-                setState(() {
-                    categoryExpense[category]+=int.parse(addExpenseAmountController.text);
-                    if (category!='Income')
-                      totalExpense+=int.parse(addExpenseAmountController.text);
-                });
-
                 if (Navigator.canPop(context)) 
                   Navigator.pop(context);
              },

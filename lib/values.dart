@@ -21,9 +21,12 @@ Map listToZeroMap(List l){
   return m;
 }
 
+
 Map categoryExpense = listToZeroMap(categoryList);
 
 void manageExpenseFunc(){
+
+  categoryExpense = listToZeroMap(categoryList);
 
   for (int i=0;i<expenseList.length;i++){
     

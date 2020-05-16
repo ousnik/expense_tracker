@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'values.dart';
 
 var dbReference = FirebaseDatabase.instance.reference();  
 
@@ -45,6 +46,10 @@ void addExpenseItem(date,title,amount,category){
     'amount':newItem.amount,
     'category':newItem.category
   };
+
+  categoryExpense[category]+=newItem.amount;
+  if (category!='Income')
+    totalExpense+=newItem.amount;
 
   dbReference.push().set(newItemMap);
   expenseList.add(newItem);

@@ -46,28 +46,31 @@ class _MyHomePageState extends State<MyHomePage> {
       return Colors.black26;
   }
   
-  Container homeCategoryTemplate(icon, title){
-    return Container(
-      decoration: new BoxDecoration(
-        color: getCategoryBackgroundColour(title),
-        borderRadius: BorderRadius.all(
-          const Radius.circular(10),
-        ),
-      ),
-      child: ListTile(
-        leading: Icon(icon, color: Colors.black,),
-        title: Text(
-          title, 
-          style: TextStyle(
-            color: Colors.black, 
-            fontSize: 18
+  Padding homeCategoryTemplate(icon, title){
+    return Padding(
+      padding: const EdgeInsets.only(bottom:8.0),
+      child: Container(
+        decoration: new BoxDecoration(
+          color: getCategoryBackgroundColour(title),
+          borderRadius: BorderRadius.all(
+            const Radius.circular(10),
           ),
         ),
-        trailing: Text(
-          '₹'+categoryExpense[title].toString(), 
-          style: TextStyle(
-            color: Colors.black, 
-            fontSize: 18
+        child: ListTile(
+          leading: Icon(icon, color: Colors.black,),
+          title: Text(
+            title, 
+            style: TextStyle(
+              color: Colors.black, 
+              fontSize: 18
+            ),
+          ),
+          trailing: Text(
+            '₹'+categoryExpense[title].toString(), 
+            style: TextStyle(
+              color: Colors.black, 
+              fontSize: 18
+            ),
           ),
         ),
       ),
@@ -76,12 +79,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(18.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -123,7 +126,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       MaterialPageRoute(
                         builder: (context) => AddExpensePage()
                       )
-                    );                 
+                    ).then((value) {
+                      setState(() {
+                        totalExpense=totalExpense; 
+                        categoryExpense=categoryExpense;                     
+                      });
+                    });                 
                   },
                 ),  
                 FloatingActionButton(
