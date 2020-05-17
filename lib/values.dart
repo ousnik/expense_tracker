@@ -21,21 +21,17 @@ Map listToZeroMap(List l){
   return m;
 }
 
-
 Map categoryExpense = listToZeroMap(categoryList);
 
 void manageExpenseFunc(){
-
   categoryExpense = listToZeroMap(categoryList);
-
-  for (int i=0;i<expenseList.length;i++){
-    
-    categoryExpense[expenseList[i].category]+=expenseList[i].amount;
-    
-    if (expenseList[i].category=='Income')
-      continue;
-    else
-      totalExpense+=expenseList[i].amount;
+  for (int i=0;i<expenseList.length;i++) {
+    if (DateTime.now().month==expenseList[i].date.month) {
+      categoryExpense[expenseList[i].category]+=expenseList[i].amount;
+      if (expenseList[i].category=='Income')
+        continue;
+      else
+        totalExpense+=expenseList[i].amount;
+    }
   }
-
 }

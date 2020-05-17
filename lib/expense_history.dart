@@ -150,6 +150,7 @@ class _ExpenseHistoryPageState extends State<ExpenseHistoryPage> {
         title: Text('My Expenses'),
       ),
       body: SingleChildScrollView(
+              padding: const EdgeInsets.only(bottom:12),
               child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: expenseFormatter(expenseList),

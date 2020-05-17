@@ -88,13 +88,14 @@ class _LandingPageState extends State<LandingPage> {
                             dbReference = dbReference.child(email);
                             await expenseListPopulator();
                             manageExpenseFunc();
-                            Navigator.push(
+                            Navigator.pushAndRemoveUntil(
                               context, 
                               MaterialPageRoute(
                                 builder: (context) => MyHomePage(
                                   title: 'Expense Tracker',
-                                )
-                              )
+                                ),
+                              ),
+                              (e) => false
                             );
                          }
                       },
@@ -103,7 +104,7 @@ class _LandingPageState extends State<LandingPage> {
                 ],
               ),
           ),
-      ),
+        ),
       ),
     );
   }
